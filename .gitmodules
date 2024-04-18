@@ -1,0 +1,3 @@
+[submodule "demos/rocksdb_ivf/gflags"]
+	path = demos/rocksdb_ivf/gflags
+	url = https://github.com/gflags/gflags.git

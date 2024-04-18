@@ -7,6 +7,9 @@
 *.dylib
 *.pyc
 *~
+.cache
+.vscode
+/build
 /config.*
 /aclocal.m4
 /autom4te.cache/

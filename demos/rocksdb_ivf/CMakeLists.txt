@@ -4,5 +4,7 @@ set(CMAKE_BUILD_TYPE Debug)
 find_package(faiss REQUIRED)
 find_package(RocksDB REQUIRED)
 
+add_subdirectory(gflags)
+
 add_executable(demo_rocksdb_ivf demo_rocksdb_ivf.cpp RocksDBInvertedLists.cpp)
-target_link_libraries(demo_rocksdb_ivf faiss RocksDB::rocksdb)
+target_link_libraries(demo_rocksdb_ivf faiss RocksDB::rocksdb gflags::gflags)

@@ -43,8 +43,8 @@ DEFINE_int64(nbits_per_idx,
              "Use PQ: Codebook's index bit nums");
 
 DEFINE_bool(use_db, 
-              true, 
-              "Use Disk: To use disk");
+            true, 
+            "Use Disk: To use disk");
 
 DEFINE_string(db, 
               "", 
@@ -201,7 +201,7 @@ int main(int argc, char* argv[]) {
                 "%.4lf\t%4.lf\t%.4lf\n", 
                 r_1, r_10, r_100);
         fclose(fp_recall);
-        
+
         printf("R@1 = %.4f\n", n_1 / float(nq));
         printf("R@10 = %.4f\n", n_10 / float(nq));
         printf("R@100 = %.4f\n", n_100 / float(nq));

@@ -21,6 +21,8 @@
 
 using namespace faiss;
 
+#define Mib 1000000
+
 /* Define Optinal Vars **/
 DEFINE_int32(nlist, 
              100,
@@ -78,6 +80,14 @@ DEFINE_string(save_recall_file,
               "", 
               "Dataset: Store recall statistics");
 
+DEFINE_int64(num_vecs, 
+             1*Mib,
+             "Dataset: Numeric of base num vectors");
+
+DEFINE_bool(use_vec_num, 
+            false, 
+            "Dataset: Need to point used vec's amount");
+
 DEFINE_int32(probes, 
              10,
              "Data: Decide detecting probes");
@@ -107,12 +117,7 @@ int main(int argc, char* argv[]) {
 
         printf("[%.3f s] Loading training set\n", elapsed() - t0);
         size_t nt, dimt;
-        float* xt;
-        if (FLAGS_big_ann_data) {
-            unsigned char* xt = bvecs_read(FLAGS_learn_file.c_str(), &dimt, &nt);
-        } else {
-            float* xt = fvecs_read(FLAGS_learn_file.c_str(), &dimt, &nt);    
-        }
+        float* xt = fvecs_read(FLAGS_learn_file.c_str(), &dimt, &nt);                            
         assert(dim == dimt || !"Training set has wrong dim");
         double time_load_train_set = elapsed() -t0;
         printf("[%.3f s] Training on %ld vectors\n", time_load_train_set, nt);
@@ -123,10 +128,10 @@ int main(int argc, char* argv[]) {
         printf("[%.3f s] Loading base set\n", time_train_train_set);
         size_t nb, dimb;
         float* xb;
-        if (FLAGS_big_ann_data) {
-            unsigned char* xb = bvecs_read(FLAGS_base_file.c_str(), &dimb, &nb);
+        if (FLAGS_use_vec_num) {
+            xb = fvecs_read(FLAGS_base_file.c_str(), &dimb, &nb, FLAGS_num_vecs);        
         } else {
-            float* xb = fvecs_read(FLAGS_base_file.c_str(), &dimb, &nb);
+            xb = fvecs_read(FLAGS_base_file.c_str(), &dimb, &nb);
         }
         assert(dim == dimb || !"Base set has wrong dim");
         double time_load_base_set = elapsed() - t0;
@@ -137,12 +142,7 @@ int main(int argc, char* argv[]) {
         double time_add_base_set = elapsed() - t0;
         printf("[%.3f s] Loading queries\n", time_add_base_set);
         size_t nq, dimq;
-        float* xq;
-        if (FLAGS_big_ann_data) {
-            unsigned char* xq = bvecs_read(FLAGS_query_file.c_str(), &dimq, &nq);
-        } else {
-            float* xq = fvecs_read(FLAGS_query_file.c_str(), &dimq, &nq);
-        }
+        float* xq = fvecs_read(FLAGS_query_file.c_str(), &dimq, &nq);
         assert(dim == dimq || !"Query set has wrong dim");
 
         double time_load_query = elapsed() - t0;

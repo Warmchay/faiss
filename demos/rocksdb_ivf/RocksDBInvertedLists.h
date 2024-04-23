@@ -5,6 +5,7 @@
 #include <faiss/invlists/InvertedLists.h>
 
 #include <rocksdb/db.h>
+#include <cstddef>
 
 namespace faiss_rocksdb {
 
@@ -60,6 +61,14 @@ struct RocksDBInvertedLists : faiss::InvertedLists {
 } // namespace faiss_rocksdb
 
 int* ivecs_read(const char* fname, size_t* d_out, size_t* n_out);
+int* ivecs_read(const char* fname, size_t* d_out, size_t* n_out, size_t num_vecs);
+
 float* fvecs_read(const char* fname, size_t* d_out, size_t* n_out);
+float* fvecs_read(const char* fname, size_t* d_out, size_t* n_out, size_t num_vecs);
+
+
 unsigned char* bvecs_read(const char* fname, size_t* d_out, size_t* n_out);
+unsigned char* bvecs_read(const char* fname, size_t* d_out, size_t* n_out, size_t num_vecs);
+
+
 double elapsed();

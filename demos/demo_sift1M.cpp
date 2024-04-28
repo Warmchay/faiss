@@ -98,14 +98,14 @@ int main() {
         printf("[%.3f s] Loading train set\n", elapsed() - t0);
 
         size_t nt;
-        float* xt = fvecs_read("sift1M/sift_learn.fvecs", &d, &nt);
+        float* xt = fvecs_read("/data1/wq/bigann/bigann_learn_500000.fvecs", &d, &nt);
 
         printf("[%.3f s] Preparing index \"%s\" d=%ld\n",
                elapsed() - t0,
                index_key,
                d);
         index = faiss::index_factory(d, index_key);
-
+        
         printf("[%.3f s] Training on %ld vectors\n", elapsed() - t0, nt);
 
         index->train(nt, xt);
@@ -116,7 +116,7 @@ int main() {
         printf("[%.3f s] Loading database\n", elapsed() - t0);
 
         size_t nb, d2;
-        float* xb = fvecs_read("sift1M/sift_base.fvecs", &d2, &nb);
+        float* xb = fvecs_read("/data1/wq/bigann/bigann_base_1000000.fvecs", &d2, &nb);
         assert(d == d2 || !"dataset does not have same dimension as train set");
 
         printf("[%.3f s] Indexing database, size %ld*%ld\n",
@@ -136,7 +136,7 @@ int main() {
         printf("[%.3f s] Loading queries\n", elapsed() - t0);
 
         size_t d2;
-        xq = fvecs_read("sift1M/sift_query.fvecs", &d2, &nq);
+        xq = fvecs_read("/data1/wq/bigann/bigann_query.fvecs", &d2, &nq);
         assert(d == d2 || !"query does not have same dimension as train set");
     }
 
@@ -150,7 +150,7 @@ int main() {
 
         // load ground-truth and convert int to long
         size_t nq2;
-        int* gt_int = ivecs_read("sift1M/sift_groundtruth.ivecs", &k, &nq2);
+        int* gt_int = ivecs_read("/data1/wq/bigann/gnd/idx_1M.ivecs", &k, &nq2);
         assert(nq2 == nq || !"incorrect nb of ground truth entries");
 
         gt = new faiss::idx_t[k * nq];

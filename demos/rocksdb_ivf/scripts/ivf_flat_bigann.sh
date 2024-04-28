@@ -10,9 +10,11 @@ use_db=true
 db_path="/data1/wq/bigann/db"
 
 # Select used files
-learn_file="/data1/wq/bigann/bigann_learn_without_header.bvecs"
-base_file="/data1/wq/bigann/bigann_base_without_header.bvecs"
-query_file="/data1/wq/bigann/bigann_query_without_header.bvecs"
+num_base_vecs=1000000
+num_learn_vecs=500000
+learn_file="/data1/wq/bigann/bigann_learn_${num_learn_vecs}.fvecs"
+base_file="/data1/wq/bigann/bigann_base_${num_base_vecs}.fvecs"
+query_file="/data1/wq/bigann/bigann_query.fvecs"
 gt_file="/data1/wq/bigann/gnd/idx_1M.ivecs"
 
 # Define searching vars
@@ -46,9 +48,9 @@ do
                         -probes $probe \
                         -big_ann_data false \
                         -save_time_file $res_time_path \
-                        -save_recall_file $res_recall_path \
-                        -use_vec_num true \
-                        -num_vecs 1000000
+                        -save_recall_file $res_recall_path
+                        # -use_vec_num false \
+                        # -num_vecs $num_vecs_amount
         fi
     done
 done

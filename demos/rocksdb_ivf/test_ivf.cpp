@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
     double time_load = 0, time_train_train_set = 0, time_add_base_set = 0, time_search = 0, time_compute = 0;
     double time_pre_load = 0, time_pre_other = 0;
     std::string db_path_str = "/data1/wq/bigann/db/" + std::to_string(FLAGS_nlist) + "_" + std::to_string(FLAGS_probes);
-    std::string fp_time_path_str = "/data1/wq/bigann/result/ivf_flat_sift50M/" + std::to_string(nlist) + "_time.txt";
-    std::string fp_recall_path_str = "/data1/wq/bigann/result/ivf_flat_sift50M/" + std::to_string(nlist) + "_recall.txt";
+    std::string fp_time_path_str = "/data1/wq/bigann/result/ivf_flat_sift100M/" + std::to_string(nlist) + "_time.txt";
+    std::string fp_recall_path_str = "/data1/wq/bigann/result/ivf_flat_sift100M/" + std::to_string(nlist) + "_recall.txt";
     // const char* fp_time_path = "/data1/wq/bigann/result/ivf_flat_sift50M/100_time.txt";
     // const char* fp_recall_path = "/data1/wq/bigann/result/ivf_flat_sift50M/100_recall.txt";
     const char* db_path = db_path_str.c_str();
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 
         printf("[%.3f s] Loading base set\n", elapsed() - t0);
         time_pre_load = elapsed();
-        float* xb = fvecs_read("/data1/wq/bigann/bigann_base_50M.fvecs", &dimb, &nb);
+        float* xb = fvecs_read("/data1/wq/bigann/bigann_base_100M.fvecs", &dimb, &nb);
         assert(dimb == dim);
         time_load += elapsed() - time_pre_load;
 
@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
     {    
         printf("[%.3f s] Loading ground truth for %ld queries\n", elapsed() - t0, nq);
         time_pre_load = elapsed();
-        int* xg = ivecs_read("/data1/wq/bigann/gnd/idx_50M.ivecs", &dimg, &ng);
+        int* xg = ivecs_read("/data1/wq/bigann/gnd/self_gt_idx_100M.ivecs", &dimg, &ng);
         assert(nq == ng);
         time_load += elapsed() - time_pre_load;
 

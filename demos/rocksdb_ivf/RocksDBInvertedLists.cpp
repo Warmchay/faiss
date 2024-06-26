@@ -9,6 +9,8 @@
 
 
 #include <faiss/impl/FaissAssert.h>
+#include <cstdio>
+#include <string>
 
 using namespace faiss;
 
@@ -80,6 +82,7 @@ size_t RocksDBInvertedLists::add_entries(
     rocksdb::WriteOptions wo;
     std::vector<char> key(sizeof(size_t) + sizeof(idx_t));
     memcpy(key.data(), &list_no, sizeof(size_t));
+    write_hist_[list_no] += 1;
     for (size_t i = 0; i < n_entry; i++) {
         memcpy(key.data() + sizeof(size_t), ids + i, sizeof(idx_t));
         rocksdb::Status status = db_->Put(
@@ -91,6 +94,16 @@ size_t RocksDBInvertedLists::add_entries(
         assert(status.ok());
     }
     return 0; // ignored
+}
+
+void RocksDBInvertedLists::generate_write_hotness_hist() {
+    std::string save_write_hotness_name = "/data1/wq/bigann/result/ivf_flat_sift100M/write_hotness.txt";
+    FILE* fp_write_hotness = fopen(save_write_hotness_name.c_str(), "a");
+    for (auto write_group : write_hist_) {
+        fprintf(fp_write_hotness, 
+                "%ld\t%ld\n",
+                write_group.first, write_group.second);
+    }
 }
 
 void RocksDBInvertedLists::update_entries(

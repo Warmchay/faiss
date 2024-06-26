@@ -20,6 +20,10 @@
 
 cmake_minimum_required(VERSION 3.24.0 FATAL_ERROR)
 
+set(CMAKE_CXX_COMPILER "/usr/bin/g++-12")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3")
+
+
 set(FAISS_LANGUAGES CXX)
 
 if(FAISS_ENABLE_GPU)

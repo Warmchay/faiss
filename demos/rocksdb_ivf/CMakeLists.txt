@@ -16,10 +16,10 @@ message(STATUS "finding ${ROCKSDB_LIB}")
 
 add_subdirectory(gflags)
 
-add_executable(rocksdb_ivf faiss_rocksdb_ivf.cpp RocksDBInvertedLists.cpp)
+# add_executable(rocksdb_ivf faiss_rocksdb_ivf.cpp RocksDBInvertedLists.cpp)
 add_executable(test_bvecs test_bvecs.cpp)
 add_executable(test_ivf test_ivf.cpp RocksDBInvertedLists.cpp)
 
 target_link_libraries(test_ivf gflags::gflags faiss ${ROCKSDB_LIB} -lpthread -lz -lbz2 -lsnappy -lzstd -ldl)
 target_link_libraries(test_bvecs gflags::gflags)
-target_link_libraries(rocksdb_ivf faiss gflags::gflags ${ROCKSDB_LIB} -lpthread -lz -lbz2 -lsnappy -lzstd -ldl)
+# target_link_libraries(rocksdb_ivf faiss gflags::gflags ${ROCKSDB_LIB} -lpthread -lz -lbz2 -lsnappy -lzstd -ldl)
